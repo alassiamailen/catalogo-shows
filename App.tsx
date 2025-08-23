@@ -1,0 +1,34 @@
+import React from 'react';
+import { NavigationContainer } from '@react-navigation/native';
+import { createStackNavigator } from '@react-navigation/stack';
+import Home from './app/Home';
+import ShowDetailScreen from './app/ShowDetailScreen';
+
+/// Parameters received by each screen
+export type RootStackParamList = {
+    Home: undefined;
+    ShowDetailScreen: { showId: number };
+  };
+
+const Stack = createStackNavigator<RootStackParamList>();
+
+const linking = {
+  prefixes: ["http://localhost:8081"],
+  config: {
+    screens: {
+      Home: "home",
+      ShowDetailScreen: "home/detail/:showId",
+    },
+  },
+};
+
+export default function App() {
+    return (
+      <NavigationContainer linking={linking}>
+        <Stack.Navigator initialRouteName="Home">
+          <Stack.Screen name="Home" component={Home} />
+          <Stack.Screen name="ShowDetailScreen" component={ShowDetailScreen} />
+        </Stack.Navigator>
+      </NavigationContainer>
+    );
+  }
