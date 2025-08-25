@@ -1,13 +1,14 @@
 import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
-import Home from './app/Home';
-import ShowDetailScreen from './app/ShowDetailScreen';
+import Home from './src/app/Home';
+import ShowDetailScreen from './src/app/ShowDetailScreen';
+
 
 /// Parameters received by each screen
 export type RootStackParamList = {
     Home: undefined;
-    ShowDetailScreen: { showId: number };
+    ShowDetailScreen: { showId: number, showImage: string, showTitle: string};
   };
 
 const Stack = createStackNavigator<RootStackParamList>();
@@ -24,7 +25,7 @@ const linking = {
 
 export default function App() {
     return (
-      <NavigationContainer linking={linking}>
+      <NavigationContainer linking={linking}>        
         <Stack.Navigator initialRouteName="Home">
           <Stack.Screen name="Home" component={Home} />
           <Stack.Screen name="ShowDetailScreen" component={ShowDetailScreen} />
