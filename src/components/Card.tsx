@@ -21,7 +21,7 @@ type Props = {
         resizeMode="cover"
       />
       
-      <Text style={{ fontWeight: 'bold', marginBottom: 4 }}>{title}</Text>
+      <Text className='!text-red-500'>{title}</Text>
     </View>
     );
   }

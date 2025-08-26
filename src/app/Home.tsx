@@ -40,7 +40,6 @@ export default function Home({ navigation }: Props) {
 
       } catch (error) {
         console.error(error);
-
       }
       setLoading(false);
     };

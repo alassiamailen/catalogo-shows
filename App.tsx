@@ -3,6 +3,8 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import Home from './src/app/Home';
 import ShowDetailScreen from './src/app/ShowDetailScreen';
+import "./global.css"
+import 'react-native-reanimated';
 
 
 /// Parameters received by each screen
@@ -25,8 +27,8 @@ const linking = {
 
 export default function App() {
     return (
-      <NavigationContainer linking={linking}>        
-        <Stack.Navigator initialRouteName="Home">
+      <NavigationContainer linking={linking}>
+        <Stack.Navigator initialRouteName="Home" id={undefined}>
           <Stack.Screen name="Home" component={Home} />
           <Stack.Screen name="ShowDetailScreen" component={ShowDetailScreen} />
         </Stack.Navigator>

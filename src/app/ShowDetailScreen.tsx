@@ -24,9 +24,7 @@ export default function ShowDetailScreen({ route, navigation }: Props) {
     const fetch = async () => {
       try {
         const data = await getChaptersByNovel(showId);
-        setChapters(data);
-        console.log("imagen:",data[0].image);
-        
+        setChapters(data);  
       } catch (error) {
         console.error(error);
       }
