@@ -1,19 +1,17 @@
 import 'react-native-gesture-handler'; 
 import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
-import { SafeAreaView, ScrollView, View, Text, StatusBar } from 'react-native';
 import { createStackNavigator } from '@react-navigation/stack';
 import Home from './src/app/Home';
 import ShowDetailScreen from './src/app/ShowDetailScreen';
-import "./global.css"
 import 'react-native-reanimated';
 import { GestureHandlerRootView } from "react-native-gesture-handler";
-
 
 /// Parameters received by each screen
 export type RootStackParamList = {
   Home: undefined;
   ShowDetailScreen: { showId: number };
+  ScrollTestUltra: undefined;
 };
 
 const Stack = createStackNavigator<RootStackParamList>();
@@ -30,13 +28,13 @@ const linking = {
 
 export default function App() {
   return (
-      <GestureHandlerRootView>
+      <GestureHandlerRootView style={{ flex: 1 }}>
         <NavigationContainer linking={linking}>
           <Stack.Navigator initialRouteName="Home" id={undefined} screenOptions={{
             headerShown: false,
           }}>
             <Stack.Screen name="Home" component={Home} />
-            <Stack.Screen name="ShowDetailScreen" component={ShowDetailScreen} />
+            <Stack.Screen name="ShowDetailScreen" component={ShowDetailScreen} />            
           </Stack.Navigator>
         </NavigationContainer>
       </GestureHandlerRootView>

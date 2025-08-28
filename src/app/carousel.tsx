@@ -5,6 +5,7 @@ import { useSharedValue } from "react-native-reanimated";
 import Carousel from "react-native-reanimated-carousel";
 import ShowCard from "../components/Card";
 import { ChevronLeft, ChevronRight } from "lucide-react-native";
+import { LinearGradient } from 'expo-linear-gradient';
 
 
 type Show = {
@@ -29,7 +30,6 @@ export default function CarouselRender({ shows, onCardPress }: Props) {
 
 	const cardWidth = (windowWidth - gap * (cardsInScreen + 1)) / cardsInScreen;
 	const carouselWidth = windowWidth - gap * 2;
-
 	const cardHeight = 220;
 
 	// Agrupar shows de a pares
@@ -50,13 +50,20 @@ export default function CarouselRender({ shows, onCardPress }: Props) {
 		setCurrentIndex(prevIndex);
 	};
 
-
-
 	return (
-		<View
+		<LinearGradient
+		colors={['#101829', '#000000']} // Verde a negro
+		start={{ x: 0, y: 1 }}
+		end={{ x: 0, y: 0}}
 			id="carousel-component"
-			className="bg-[#e8e2d5] rounded-lg mx-auto"
-			style={{ width: carouselWidth, height: cardHeight }}
+			style={{ 
+				width: carouselWidth, 
+				height: cardHeight,
+				
+				borderRadius: 8,
+				alignSelf: "center",
+				overflow: 'hidden',
+			}}
 		>
 			<Carousel
 				ref={carouselRef}
@@ -68,7 +75,8 @@ export default function CarouselRender({ shows, onCardPress }: Props) {
 				pagingEnabled={true}
 				snapEnabled={true}
 				mode="parallax"
-				overscrollEnabled={true}
+				overscrollEnabled={false}
+				vertical={false}
 				modeConfig={{
 					parallaxScrollingScale: 0.9,
 					parallaxScrollingOffset: 50,
@@ -88,26 +96,38 @@ export default function CarouselRender({ shows, onCardPress }: Props) {
 							</View>
 						))}
 					</View>
-
 				)}
 			/>
-			<TouchableOpacity
+			{/*<TouchableOpacity
 				onPress={scrollPrev}
-				className="absolute left-0 top-0 justify-center items-center"
-				style={{ height: cardHeight, width: 40 }}
+				style={{ 
+					position: "absolute", 
+					left: 0, 
+					top: 0, 
+					justifyContent: "center", 
+					alignItems: "center",
+					height: cardHeight, 
+					width: 40 
+				}}
 			>
 				<ChevronLeft color="white" size={32} />
 			</TouchableOpacity>
 
-			{/* Flecha derecha */}
 			<TouchableOpacity
 				onPress={scrollNext}
-				className="absolute right-0 top-0 justify-center items-center"
-				style={{ height: cardHeight, width: 40 }}
+				style={{ 
+					position: "absolute", 
+					right: 0, 
+					top: 0, 
+					justifyContent: "center", 
+					alignItems: "center",
+					height: cardHeight, 
+					width: 40 
+				}}
 			>
 				<ChevronRight color="white" size={32} />
-			</TouchableOpacity>
-		</View>
+			</TouchableOpacity>*/}
+		</LinearGradient>
 	);
 }
 

@@ -1,13 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, Image, FlatList, TouchableOpacity,Dimensions,ScrollView } from 'react-native';
+import { View, Text, Image, TouchableOpacity, Dimensions, ScrollView } from 'react-native';
 import { RouteProp } from '@react-navigation/native';
 import { RootStackParamList } from './../../App';
 import { StackNavigationProp } from "@react-navigation/stack";
 import { getChaptersByNovel, Chapter } from '../service/chapterService';
 import ChapterCard from "../components/ChapterCard";
 import { getNovelById, Novel } from '../service/novelService';
-
-
+import CarouselDetail from './carouselDetail';
 
 type ShowDetailScreenRouteProp = RouteProp<RootStackParamList, 'ShowDetailScreen'>;
 
@@ -27,7 +26,6 @@ export default function ShowDetailScreen({ route }: Props) {
   useEffect(() => {
     const fetch = async () => {
       try {
-
         const [dataChapter, dataNovel] = await Promise.all([
           getChaptersByNovel(showId),
           getNovelById(showId)
@@ -42,43 +40,68 @@ export default function ShowDetailScreen({ route }: Props) {
     }
     fetch();
   }, [showId]);
-  if (loading) return <Text className="text-white p-4">Cargando catálogo...</Text>;
-  return (
-    <ScrollView className="flex-1 bg-white" contentContainerStyle={{ paddingBottom: 16 }}>
-    <View className="flex-1 bg-black">
-      <Image
-        source={{ uri: novel.cover }}        
-        resizeMode="cover"
-        style={{
-          width: '100%',
-          aspectRatio: 16 / 9,
-          maxHeight: Dimensions.get('window').height * 0.4,
-        }}
-      
-      />
-      <View className="px-4 py-6">
-        <Text className="text-2xl text-center mb-6 px-4 bg-white">{novel.title}</Text>
-      </View>
-      <View className="px-4 py-6">
-      <Text className="text-2xl text-center mb-6 px-4 bg-white">{novel.description}</Text>
-      </View>    
 
-      {loading ? (
-        <Text className="text-center mt-4 text-gray-400">Cargando capítulos...</Text>
-      ) : (
-        <FlatList
-          data={chapters}
-          numColumns={3}
-          keyExtractor={(item) => item.id.toString()}
-          renderItem={({ item }) => <ChapterCard chapter={item} />}
-          columnWrapperStyle={{ justifyContent: 'space-between',
-            paddingHorizontal: 16,
-         }}
-          contentContainerStyle={{ paddingVertical: 16,
+  if (loading) return (
+    <View style={{ flex: 1, backgroundColor: "#000", justifyContent: "center", alignItems: "center" }}>
+      <Text style={{ color: "white", padding: 16, fontSize: 18 }}>Cargando catálogo...</Text>
+    </View>
+  );
+
+  return (
+    <ScrollView style={{ flex: 1, backgroundColor: "#000" }} contentContainerStyle={{ paddingBottom: 16 }}>
+      <View style={{ flex: 1, backgroundColor: "black" }}>
+        <Image
+          source={{ uri: novel.cover }}        
+          resizeMode="cover"
+          style={{
+            width: '100%',
+            aspectRatio: 16 / 9,
+            maxHeight: Dimensions.get('window').height * 0.4,
           }}
         />
-      )}
-    </View>
+        <View style={{ paddingHorizontal: 16, paddingVertical: 24,marginTop: -16 }}>
+          <Text style={{ 
+            fontSize: 28, 
+            textAlign: "center", 
+            marginBottom: 24, 
+            paddingHorizontal: 16,           
+            color: "white",
+            fontWeight: "bold",            
+          }}>
+            {novel.title}
+          </Text>
+        </View>
+        <View style={{ paddingHorizontal: 16, paddingVertical: 24, marginTop: -35}}>
+          <Text style={{ 
+            fontSize: 24, 
+            textAlign: "center", 
+            marginBottom: 24, 
+            paddingHorizontal: 16,            
+            color: "white"
+          }}>
+            {novel.description}
+          </Text>
+        </View>    
+
+        {loading ? (
+          <Text style={{ textAlign: "center", marginTop: 16, color: "#9ca3af" }}>
+            Cargando capítulos...
+          </Text>
+        ) : (
+          <View style={{ paddingHorizontal: 16, paddingVertical: 16 }}>
+            <Text style={{ 
+              color: "white", 
+              fontSize: 20, 
+              fontWeight: "bold",
+              textAlign: "center",
+              marginBottom: 16
+            }}>
+              Capítulos
+            </Text>
+            <CarouselDetail chapters={chapters} />
+          </View>
+        )}
+      </View>
     </ScrollView>
   );
 }

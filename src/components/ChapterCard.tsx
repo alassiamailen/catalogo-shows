@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Image, Text, TouchableOpacity } from 'react-native';
+import { View, Image, Text, TouchableOpacity, useWindowDimensions } from 'react-native';
 import { Chapter } from '../service/chapterService';
 
 type Props = {
@@ -7,24 +7,64 @@ type Props = {
 };
 
 export default function ChapterCard({ chapter }: Props) {  
+  const { width: windowWidth } = useWindowDimensions();
+  
+  // Tamaños responsivos basados en el ancho de pantalla
+  const isSmallScreen = windowWidth < 600;
+  
   return (
-    <View className="w-full max-w-sm m-4 bg-white border border-gray-200 rounded-lg shadow-sm dark:bg-gray-800 dark:border-gray-700">
+    <View style={{ 
+      width: '100%', 
+      height: '100%',
+      backgroundColor: "#101829", 
+      //borderWidth: 1,      
+      borderRadius: 8, 
+      shadowColor: "#000",
+      shadowOffset: {
+        width: 0,
+        height: 1,
+      },
+      padding: 8,
+      shadowOpacity: 0.05,
+      shadowRadius: 2,
+      elevation: 2,
+      overflow: 'hidden',
+     
+    }}>
       <Image
         source={{ uri: chapter.image }}
-        className="rounded-t-lg h-56 w-full "
-        resizeMode="cover"
+        style={{ 
+          width: '100%', 
+          height: '73%', // 60% de la altura total
+          resizeMode: "cover"
+        }}
       />
-      <View className="px-5 pb-5">
+      <View style={{ 
+        paddingHorizontal: isSmallScreen ? 8 : 12, 
+        paddingVertical: isSmallScreen ? 4 : 6,
+        flex: 1,
+        justifyContent: 'flex-start'
+      }}>
         <TouchableOpacity>
-          <Text className="text-xl font-semibold tracking-tight text-gray-900 dark:text-white">
+          <Text style={{ 
+            fontSize: isSmallScreen ? 12 : 14, 
+            fontWeight: '600', 
+            letterSpacing: -0.5, 
+            color: "white", 
+            marginBottom: 2,
+            marginTop: 4, 
+          }}>
             Capítulo {chapter.number}
           </Text>
         </TouchableOpacity>
-        <View className="flex flex-row items-center flex-1 justify-between ">
-          <Text className="text-3xl font-bold text-gray-900 dark:text-white">
-            {chapter.title}
-          </Text>
-        </View>
+        <Text style={{ 
+          fontSize: isSmallScreen ? 14 : 16, 
+          fontWeight: '700', 
+          color: "white", 
+          lineHeight: isSmallScreen ? 16 : 18
+        }}>
+          {chapter.title}
+        </Text>
       </View>
     </View>
   );
