@@ -1,11 +1,13 @@
-import React from 'react';
-import { View, FlatList, Image, Text, TouchableOpacity,ScrollView  } from "react-native";
+
+import { View, FlatList, Image, Text, TouchableOpacity,ScrollView,SafeAreaView ,StatusBar  } from "react-native";
 import { StackNavigationProp } from '@react-navigation/stack';
 import { RootStackParamList } from './../../App';
 import { getCategories,Category } from '../service/categoryService';
 import { useState, useEffect } from "react";
 import { getNovels, Novel } from '../service/novelService';
 import ShowCard from '../components/Card';
+import * as React from "react"
+import CarouselRender from "./carousel";
 
 
 type HomeNavigationProp = StackNavigationProp<RootStackParamList, 'Home'>;
@@ -29,14 +31,16 @@ export default function Home({ navigation }: Props) {
       try {
         const [categoriesData, novelsData] = await Promise.all([
           getCategories(),
-          getNovels()
+          getNovels(),          
         ]);
+       
 
         const categoryByNovel = categoriesData.map(category => ({
           ...category,
           shows: novelsData.filter(novel => novel.id_categorie === category.id)
         }));
-        setCategories(categoryByNovel);
+        setCategories(categoryByNovel);   
+        
 
       } catch (error) {
         console.error(error);
@@ -46,34 +50,28 @@ export default function Home({ navigation }: Props) {
     fetch();
   }, []);
   if (loading) return <Text className="text-white p-4">Cargando catálogo...</Text>;
-
-
-  return (
-    <ScrollView style={{ flex: 1, backgroundColor: '#1f332c', paddingHorizontal: 16, paddingTop: 16 }} >
+  console.log(categories[1].shows);  
+  
+ return (
+    <View style={{ flex: 1, backgroundColor: "#000" }}>
+    <ScrollView 
+      contentContainerStyle={{ paddingBottom: 32 }}
+      nestedScrollEnabled={true}
+    >
       {categories.map((category) => (
-        <View key={category.id} style={{ marginBottom: 24 }}>
-          <Text style={{ color: 'white', fontSize: 20, fontWeight: 'bold', marginBottom: 8 }}>{category.name}</Text>
-          <FlatList
-            horizontal
-            data={category.shows}
-            keyExtractor={(item) => item.id.toString()}
-            showsHorizontalScrollIndicator={false}
-            renderItem={({ item }) => (
-              <TouchableOpacity
-                onPress={() => navigation.navigate('ShowDetailScreen', { showId: item.id, showImage: item.cover, showTitle: item.title})}
-              >
-                <ShowCard
-                  id={item.id}
-                  title={item.title}
-                  description={item.description}
-                  cover={item.cover}
-                  style={{ minWidth: 150, marginRight: 12 }}
-                />
-              </TouchableOpacity>
-            )}
-          />
-        </View>
+       <View key={category.id} className="mb-2">
+        <View className="text-white text-xl font-bold bg-[#d64336]"> 
+       <Text className="text-white text-xl font-bold bg-[#d64336]">
+         {category.name}
+       </Text>
+       </View>
+       <CarouselRender       
+         shows={category.shows}
+         onCardPress={(novelId) => navigation.navigate("ShowDetailScreen", { showId: novelId})}
+       />
+     </View>
       ))}
-    </ScrollView>
-  );
+    </ScrollView> 
+    </View>
+  ); 
 }

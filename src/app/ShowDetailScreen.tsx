@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, Image, StyleSheet, FlatList, TouchableOpacity } from 'react-native';
+import { View, Text, Image, FlatList, TouchableOpacity,Dimensions,ScrollView } from 'react-native';
 import { RouteProp } from '@react-navigation/native';
 import { RootStackParamList } from './../../App';
 import { StackNavigationProp } from "@react-navigation/stack";
 import { getChaptersByNovel, Chapter } from '../service/chapterService';
 import ChapterCard from "../components/ChapterCard";
+import { getNovelById, Novel } from '../service/novelService';
+
 
 
 type ShowDetailScreenRouteProp = RouteProp<RootStackParamList, 'ShowDetailScreen'>;
@@ -14,17 +16,25 @@ type Props = {
   navigation: StackNavigationProp<RootStackParamList, "ShowDetailScreen">;
 };
 
-export default function ShowDetailScreen({ route, navigation }: Props) {
-  const { showId, showImage, showTitle } = route.params;
+export default function ShowDetailScreen({ route }: Props) {
+  const { showId } = route.params;
   const [chapters, setChapters] = useState<Chapter[]>([]);
-  const [loading, setLoading] = useState(true); 
-  console.log("showImage", showImage);
-  
+  const [loading, setLoading] = useState(true);
+  const [novel, setNovel] = useState<Novel>();
+  const screenHeight = Dimensions.get('window').height;
+  const imageHeight = screenHeight * 0.4;
+
   useEffect(() => {
     const fetch = async () => {
       try {
-        const data = await getChaptersByNovel(showId);
-        setChapters(data);  
+
+        const [dataChapter, dataNovel] = await Promise.all([
+          getChaptersByNovel(showId),
+          getNovelById(showId)
+        ]);
+
+        setChapters(dataChapter);
+        setNovel(dataNovel);
       } catch (error) {
         console.error(error);
       }
@@ -32,47 +42,44 @@ export default function ShowDetailScreen({ route, navigation }: Props) {
     }
     fetch();
   }, [showId]);
-
-  const renderChapter = ({ item }: { item: Chapter }) => (
-    <TouchableOpacity className="bg-white rounded-2xl shadow-md mb-4 overflow-hidden"> 
-  
-    <Image
-      source={{ uri: item.image}}
-      style={{ width: "100%", height: 160 }}
-      resizeMode="cover"
-    />    
-    
-    <View className="p-4">
-      <Text className="text-gray-500 font-semibold">
-        Capítulo {item.number}
-      </Text>
-      <Text className="text-lg font-bold mt-1 text-gray-800">
-        {item.title}
-      </Text>
-    </View>
-  </TouchableOpacity>
-  );
-
+  if (loading) return <Text className="text-white p-4">Cargando catálogo...</Text>;
   return (
-    <View className="flex-1 p-4 bg-white">
-        <Image
-        source={{ uri: showImage}}
-        style={{ width: '100%', height: 256 }} 
-        resizeMode="cover"      
+    <ScrollView className="flex-1 bg-white" contentContainerStyle={{ paddingBottom: 16 }}>
+    <View className="flex-1 bg-black">
+      <Image
+        source={{ uri: novel.cover }}        
+        resizeMode="cover"
+        style={{
+          width: '100%',
+          aspectRatio: 16 / 9,
+          maxHeight: Dimensions.get('window').height * 0.4,
+        }}
+      
       />
-      <Text className="text-2xl font-bold text-center mb-6 px-4">{showTitle}</Text>
+      <View className="px-4 py-6">
+        <Text className="text-2xl text-center mb-6 px-4 bg-white">{novel.title}</Text>
+      </View>
+      <View className="px-4 py-6">
+      <Text className="text-2xl text-center mb-6 px-4 bg-white">{novel.description}</Text>
+      </View>    
+
       {loading ? (
         <Text className="text-center mt-4 text-gray-400">Cargando capítulos...</Text>
       ) : (
         <FlatList
           data={chapters}
+          numColumns={3}
           keyExtractor={(item) => item.id.toString()}
           renderItem={({ item }) => <ChapterCard chapter={item} />}
-          contentContainerStyle={{ paddingBottom: 16, alignItems: 'center' }}
+          columnWrapperStyle={{ justifyContent: 'space-between',
+            paddingHorizontal: 16,
+         }}
+          contentContainerStyle={{ paddingVertical: 16,
+          }}
         />
       )}
-      
     </View>
+    </ScrollView>
   );
 }
 

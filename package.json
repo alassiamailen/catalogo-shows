@@ -4,8 +4,8 @@
   "main": "main.js",
   "scripts": {
     "start": "expo start",
-    "android": "expo start --android",
-    "ios": "expo start --ios",
+    "android": "expo run:android",
+    "ios": "expo run:ios",
     "web": "expo start --web"
   },
   "dependencies": {
@@ -15,17 +15,19 @@
     "@supabase/supabase-js": "^2.56.0",
     "expo": "~53.0.20",
     "expo-status-bar": "~2.2.3",
+    "lucide-react-native": "^0.542.0",
     "react": "19.0.0",
     "react-dom": "19.0.0",
     "react-native": "0.79.5",
     "react-native-css-interop": "^0.1.22",
-    "react-native-gesture-handler": "^2.28.0",
+    "react-native-gesture-handler": "~2.24.0",
     "react-native-get-random-values": "^1.11.0",
     "react-native-reanimated": "~3.17.4",
+    "react-native-reanimated-carousel": "^4.0.3",
     "react-native-safe-area-context": "5.4.0",
     "react-native-screens": "^4.15.2",
     "react-native-web": "^0.20.0",
-    "react-native-worklets": "^0.4.1"
+    "react-native-worklets": "^0.4.2"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",
