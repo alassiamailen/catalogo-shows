@@ -7,7 +7,7 @@ La app se desarrolló con **Expo (TypeScript, blank)** y está pensada para ser 
 ### Pasos
 1. Clonar el repositorio:  
 ```bash
-git clone https://github.com/tu-usuario/tu-repo.git   
+git clone https://github.com/alassiamailen/catalogo-shows
 ````
 Para levantarla:
 
