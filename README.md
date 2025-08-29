@@ -16,6 +16,12 @@ Para levantarla:
 npm install
 npx expo start
 ````
+⚠️ Aclaración importante:
+Si en Expo Go aparece el mensaje
+Unknown error: The internet connection appears to be offline
+ejecuta el siguiente comando en su lugar:
+npx expo start --tunnel
+
 3. Instalar la app **Expo Go** en tu teléfono.  
 
 4. Escanear el QR que aparece en la terminal o en el navegador con la cámara del celular.
