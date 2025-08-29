@@ -1,6 +1,6 @@
 
-import React, { useRef, useState } from "react";
-import { View, Dimensions, useWindowDimensions } from "react-native";
+import React, { useRef } from "react";
+import { View, useWindowDimensions } from "react-native";
 import { useSharedValue } from "react-native-reanimated";
 import Carousel from "react-native-reanimated-carousel";
 import ChapterCard from "../components/ChapterCard";
@@ -13,18 +13,16 @@ interface Props {
 
 export default function CarouselDetail({ chapters }: Props) {
     const progress = useSharedValue<number>(0);
-    const carouselRef = useRef<any>(null);
-    const cardsInScreen = 1; // Una carta a la vez
+    const carouselRef = useRef<any>(null);    
     const { width: windowWidth } = useWindowDimensions();
-
-    // Ancho responsivo: 90% del ancho de pantalla, máximo 400px
+    
     const carouselWidth = Math.min(windowWidth * 0.9, 400);
     const cardWidth = carouselWidth;
-    const cardHeight = Math.min(windowWidth * 0.5, 200); // Altura proporcional al ancho
+    const cardHeight = Math.min(windowWidth * 0.5, 200);
 
     return (
         <LinearGradient
-            colors={['#101829', '#000000']} // Verde a negro
+            colors={['#101829', '#000000']}
             start={{ x: 0, y: 1 }}
             end={{ x: 0, y: 0 }}
             id="carousel-component"

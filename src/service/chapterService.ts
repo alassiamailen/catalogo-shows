@@ -7,7 +7,7 @@ export interface Chapter {
    title: string;
    image: string;
 }
-
+/// Get Chapter by Id Novel
 export async function getChaptersByNovel(novelId: number): Promise<Chapter[]> {
     const { data, error } = await supabase
       .from('chapters')

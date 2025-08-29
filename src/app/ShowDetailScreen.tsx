@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, Image, TouchableOpacity, Dimensions, ScrollView } from 'react-native';
+import { View, Text, Image, Dimensions, ScrollView } from 'react-native';
 import { RouteProp } from '@react-navigation/native';
 import { RootStackParamList } from './../../App';
 import { StackNavigationProp } from "@react-navigation/stack";
 import { getChaptersByNovel, Chapter } from '../service/chapterService';
-import ChapterCard from "../components/ChapterCard";
 import { getNovelById, Novel } from '../service/novelService';
 import CarouselDetail from './carouselDetail';
 
@@ -20,8 +19,6 @@ export default function ShowDetailScreen({ route }: Props) {
   const [chapters, setChapters] = useState<Chapter[]>([]);
   const [loading, setLoading] = useState(true);
   const [novel, setNovel] = useState<Novel>();
-  const screenHeight = Dimensions.get('window').height;
-  const imageHeight = screenHeight * 0.4;
 
   useEffect(() => {
     const fetch = async () => {

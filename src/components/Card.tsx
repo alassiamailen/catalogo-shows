@@ -1,7 +1,5 @@
 import React from 'react';
-import { View, Image, Text, StyleProp, ViewStyle, TouchableOpacity } from 'react-native';
-import { useNavigation } from "@react-navigation/native";
-
+import { View, Image, Text, TouchableOpacity } from 'react-native';
 
 type Props = {
   id: number;
@@ -9,7 +7,6 @@ type Props = {
   description: string;
   cover: string;
   onPress: (id: number) => void;
-
 };
 
 export default function ShowCard({ id, title, cover, onPress }: Props) {
@@ -43,8 +40,7 @@ export default function ShowCard({ id, title, cover, onPress }: Props) {
           color: "white", 
           fontSize: 14, 
           fontWeight: "600", 
-          textAlign: "center", 
-          backgroundColor: "black", 
+          textAlign: "center",         
           paddingHorizontal: 8, 
           paddingVertical: 4, 
           borderRadius: 4 

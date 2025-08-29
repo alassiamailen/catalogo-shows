@@ -9,15 +9,14 @@ type Props = {
 export default function ChapterCard({ chapter }: Props) {  
   const { width: windowWidth } = useWindowDimensions();
   
-  // Tamaños responsivos basados en el ancho de pantalla
+
   const isSmallScreen = windowWidth < 600;
   
   return (
     <View style={{ 
       width: '100%', 
       height: '100%',
-      backgroundColor: "#101829", 
-      //borderWidth: 1,      
+      backgroundColor: "#101829",       
       borderRadius: 8, 
       shadowColor: "#000",
       shadowOffset: {
@@ -35,7 +34,7 @@ export default function ChapterCard({ chapter }: Props) {
         source={{ uri: chapter.image }}
         style={{ 
           width: '100%', 
-          height: '73%', // 60% de la altura total
+          height: '73%', 
           resizeMode: "cover"
         }}
       />

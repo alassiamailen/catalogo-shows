@@ -2,12 +2,12 @@
 import { View, Text, ScrollView } from "react-native";
 import { StackNavigationProp } from '@react-navigation/stack';
 import { RootStackParamList } from './../../App';
-import { getCategories, Category } from '../service/categoryService';
+import { getCategories} from '../service/categoryService';
 import { useState, useEffect } from "react";
 import { getNovels, Novel } from '../service/novelService';
 import * as React from "react"
 import CarouselRender from "./carousel";
-import { LinearGradient } from "expo-linear-gradient";
+
 
 type HomeNavigationProp = StackNavigationProp<RootStackParamList, 'Home'>;
 
@@ -66,8 +66,7 @@ export default function Home({ navigation }: Props) {
       >
         {categories.map((category) => (
           <View key={category.id} style={{ marginBottom: 16, padding: 16 }}>
-            <View style={{ 
-              //backgroundColor: "#59c253", 
+            <View style={{             
               padding: 16, 
               borderRadius: 8,
               marginBottom: 16

@@ -1,12 +1,10 @@
 
-import React, { useRef, useState } from "react";
-import { View, Dimensions, useWindowDimensions, TouchableOpacity } from "react-native";
+import React, { useRef} from "react";
+import { View, useWindowDimensions} from "react-native";
 import { useSharedValue } from "react-native-reanimated";
 import Carousel from "react-native-reanimated-carousel";
 import ShowCard from "../components/Card";
-import { ChevronLeft, ChevronRight } from "lucide-react-native";
 import { LinearGradient } from 'expo-linear-gradient';
-
 
 type Show = {
 	id: number;
@@ -22,8 +20,7 @@ interface Props {
 
 export default function CarouselRender({ shows, onCardPress }: Props) {
 	const progress = useSharedValue<number>(0);
-	const carouselRef = useRef<any>(null);
-	const [currentIndex, setCurrentIndex] = useState(0);
+	const carouselRef = useRef<any>(null);	
 	const cardsInScreen = 2;
 	const gap = 16;
 	const { width: windowWidth } = useWindowDimensions();
@@ -32,27 +29,15 @@ export default function CarouselRender({ shows, onCardPress }: Props) {
 	const carouselWidth = windowWidth - gap * 2;
 	const cardHeight = 220;
 
-	// Agrupar shows de a pares
+	// Group shows in pairs
 	const groupedShows: Show[][] = [];
 	for (let i = 0; i < shows.length; i += 2) {
 		groupedShows.push(shows.slice(i, i + 2));
 	}
 
-	const scrollNext = () => {
-		const nextIndex = (currentIndex + 1) % groupedShows.length;
-		carouselRef.current?.scrollTo({ index: nextIndex, animated: true });
-		setCurrentIndex(nextIndex);
-	};
-
-	const scrollPrev = () => {
-		const prevIndex = (currentIndex - 1 + shows.length) % groupedShows.length;
-		carouselRef.current?.scrollTo({ index: prevIndex, animated: true });
-		setCurrentIndex(prevIndex);
-	};
-
 	return (
 		<LinearGradient
-		colors={['#101829', '#000000']} // Verde a negro
+		colors={['#101829', '#000000']}
 		start={{ x: 0, y: 1 }}
 		end={{ x: 0, y: 0}}
 			id="carousel-component"
@@ -97,36 +82,7 @@ export default function CarouselRender({ shows, onCardPress }: Props) {
 						))}
 					</View>
 				)}
-			/>
-			{/*<TouchableOpacity
-				onPress={scrollPrev}
-				style={{ 
-					position: "absolute", 
-					left: 0, 
-					top: 0, 
-					justifyContent: "center", 
-					alignItems: "center",
-					height: cardHeight, 
-					width: 40 
-				}}
-			>
-				<ChevronLeft color="white" size={32} />
-			</TouchableOpacity>
-
-			<TouchableOpacity
-				onPress={scrollNext}
-				style={{ 
-					position: "absolute", 
-					right: 0, 
-					top: 0, 
-					justifyContent: "center", 
-					alignItems: "center",
-					height: cardHeight, 
-					width: 40 
-				}}
-			>
-				<ChevronRight color="white" size={32} />
-			</TouchableOpacity>*/}
+			/>			
 		</LinearGradient>
 	);
 }
